@@ -77,7 +77,7 @@ function App() {
               <h3>{product.model}</h3>
               <img
                 src={product.image}
-                alt={'${product.make} ${product.model}'}
+                alt={`${product.make} ${product.model}`}
                 style={{
                   width: "300px",
                   height: "300px",

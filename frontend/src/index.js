@@ -5,7 +5,6 @@ import App from "./App";
 import {
   createBrowserRouter,
   RouterProvider,
-  useRoutes,
 } from "react-router-dom";
 import Cart from "./components/Cart";
 
