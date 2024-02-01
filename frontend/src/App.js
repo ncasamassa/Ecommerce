@@ -1,24 +1,99 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import Button from "@mui/material/Button";
+import { CartContext } from "./CartContext";
+import Cart from "./components/Cart";
 
 function App() {
+  const [state, setState] = useState({
+    products: [],
+    cart: [],
+    totalPrice: 0,
+  });
+
+  const addToCart = (product) => {
+    const existingCartItem = state.cart.find(
+      (cartItem) => cartItem.product.id === product.id
+    );
+
+    setState((prevState) => ({
+      ...prevState,
+      cart: existingCartItem
+        ? prevState.cart.map((cartItem) =>
+            cartItem.product.id === product.id
+              ? { ...cartItem, count: cartItem.count + 1 }
+              : cartItem
+          )
+        : [...prevState.cart, { product, count: 1 }],
+      totalPrice: prevState.totalPrice + product.price,
+    }));
+  };
+
+  const removeFromCart = (id) => {
+    setState((prevState) => {
+      const existingCartItem = prevState.cart.find(
+        (cartItem) => cartItem.product.id === id
+      );
+
+      if (!existingCartItem) {
+        return prevState;
+      }
+
+      const updatedCart = prevState.cart.map((cartItem) =>
+        cartItem.product.id === id
+          ? { ...cartItem, count: cartItem.count - 1 }
+          : cartItem
+      );
+
+      const updatedTotalPrice =
+        prevState.totalPrice - existingCartItem.product.price;
+
+      return {
+        ...prevState,
+        cart: updatedCart.filter((cartItem) => cartItem.count > 0),
+        totalPrice: Math.max(updatedTotalPrice, 0),
+      };
+    });
+  };
+
+  useEffect(() => {
+    fetch("/api/get-products")
+      .then((response) => response.json())
+      .then((data) => setState((prevState) => ({ ...prevState, products: data })))
+      .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartContext.Provider value={{ state: state, addToCart, removeFromCart }}>
+      <div className="App">
+        <h1 className="available-products-title">Available Products</h1>
+        <div className="products-container">
+          {state.products.map((product) => (
+            <div key={product.id} className="product-item">
+              <h2>
+                <i>{product.make}</i>
+              </h2>
+              <h3>{product.model}</h3>
+              <img
+                src={product.image}
+                alt={'${product.make} ${product.model}'}
+                style={{
+                  width: "300px",
+                  height: "300px",
+                  objectFit: "contain",
+                }}
+              />
+              <h4>${product.price}</h4>
+              <Button variant="contained" onClick={() => addToCart(product)}>
+                Add to Cart
+              </Button>
+            </div>
+          ))}
+        </div>
+        <Cart />
+      </div>
+    </CartContext.Provider>
   );
 }
 

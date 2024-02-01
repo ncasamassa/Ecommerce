@@ -8,6 +8,9 @@ const objectId = mongodb.ObjectId;
 
 const server = express();
 
+
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json());
 server.use(cors());
 
 const DB_URL =
@@ -19,9 +22,6 @@ MongoClient.connect(DB_URL).then((client) => {
 
   const db = client.db(DB_NAME);
   const productsCollection = db.collection("products");
-
-  server.use(bodyParser.urlencoded({ extended: true }));
-  server.use(bodyParser.json());
 
   server.get("/api/get-products", (req, res) => {
     productsCollection
