@@ -21,13 +21,14 @@ function App() {
       cart: existingCartItem
         ? prevState.cart.map((cartItem) =>
             cartItem.product.id === product.id
-              ? { ...cartItem, count: cartItem.count + 1 }
+              ? { ...cartItem, count: cartItem.count + 1, price: parseFloat(cartItem.price) }
               : cartItem
           )
         : [...prevState.cart, { product, count: 1 }],
-      totalPrice: prevState.totalPrice + product.price,
+      totalPrice: prevState.totalPrice > 0 ? prevState.totalPrice + parseFloat(product.price): parseFloat(product.price),
     }));
   };
+  
 
   const removeFromCart = (id) => {
     setState((prevState) => {
@@ -46,23 +47,26 @@ function App() {
       );
 
       const updatedTotalPrice =
-        prevState.totalPrice - existingCartItem.product.price;
+        prevState.totalPrice - parseFloat(existingCartItem.product.price);
 
       return {
         ...prevState,
         cart: updatedCart.filter((cartItem) => cartItem.count > 0),
-        totalPrice: Math.max(updatedTotalPrice, 0),
+        totalPrice: updatedTotalPrice,
       };
     });
   };
 
   useEffect(() => {
-    fetch("/api/get-products")
+    fetch("http://localhost:3003/api/get-products")
       .then((response) => response.json())
-      .then((data) => setState((prevState) => ({ ...prevState, products: data })))
+      .then((data) =>
+        setState((prevState) => ({ ...prevState, products: data }))
+      )
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
+  console.log(state)
 
   return (
     <CartContext.Provider value={{ state: state, addToCart, removeFromCart }}>

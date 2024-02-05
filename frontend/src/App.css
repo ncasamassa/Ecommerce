@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("http://www.pixelstalk.net/wp-content/uploads/2016/04/Best-space-wallpapers-for-desktop-picture-images.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .App {
   text-align: center;
 }
@@ -6,11 +15,19 @@
   height: 40vmin;
   pointer-events: none;
 }
+.available-books-title {
+  color: white;
+  text-decoration: underline;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.App-header h1 {
+  color: white;
 }
 
 .App-header {
@@ -35,4 +52,41 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.books-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.book-item {
+  border: 1px solid lightGray;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.image-container {
+  width: 300px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-container {
+  max-height: 80vh;
+  width: 100vw;
+  height: 35vh;
+  border: 1px solid lightGray;
+  padding: 16px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  overflow-y: auto;
+  margin-top: 16px;
 }

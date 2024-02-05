@@ -29,7 +29,8 @@ const Cart = () => {
           removeFromCart={removeFromCart}
         />
       ))}
-      <p>Total Price: ${state.totalPrice.toFixed(2)}</p>
+      {!state.cart ? <p>Price: $0</p>:
+      <p>Price: ${state.totalPrice.toFixed(2)}</p>}
 
       <StripeCheckout
       stripeKey="pk_test_51OepDPIEo0qy9qOoGhEwRkclGuAhHwQjceS6P5ZRTYrySIkq06nXNnd52rzNguGTBAzik0StuRDLsrkDUJaLTAJ200vSUxp0bq"
