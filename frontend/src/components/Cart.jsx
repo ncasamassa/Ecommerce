@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { CartContext } from "../CartContext";
 import CartItem from "./CartItem";
-// import SignIn from "../SignIn";
 import StripeCheckout from "react-stripe-checkout";
 
 const onToken = (token) => {
@@ -18,9 +17,11 @@ const onToken = (token) => {
 const Cart = () => {
   const { state, removeFromCart } = useContext(CartContext);
 
+  const drawerWidth = 300;
+
+  console.log(state.cart)
   return (
-    <div className="cart-container">
-      {/* <SignIn /> */}
+    <div className="cart-container" style={{ maxWidth: drawerWidth }}>
       <h2>Your Cart</h2>
       {state.cart.map((cartItem) => (
         <CartItem
@@ -29,15 +30,18 @@ const Cart = () => {
           removeFromCart={removeFromCart}
         />
       ))}
-      {!state.cart ? <p>Price: $0</p>:
-      <p>Price: ${state.totalPrice.toFixed(2)}</p>}
+      {!state.cart.length ? (
+        <p>Price: $0</p>
+      ) : (
+        <p>Price: ${state.totalPrice.toFixed(2)}</p>
+      )}
 
       <StripeCheckout
-      stripeKey="pk_test_51OepDPIEo0qy9qOoGhEwRkclGuAhHwQjceS6P5ZRTYrySIkq06nXNnd52rzNguGTBAzik0StuRDLsrkDUJaLTAJ200vSUxp0bq"
-      token={onToken}
-      billingAddress
-      shippingAddress
-      amount={state.totalPrice * 100}
+        stripeKey="pk_test_51OepDPIEo0qy9qOoGhEwRkclGuAhHwQjceS6P5ZRTYrySIkq06nXNnd52rzNguGTBAzik0StuRDLsrkDUJaLTAJ200vSUxp0bq"
+        token={onToken}
+        billingAddress
+        shippingAddress
+        amount={state.totalPrice * 100}
       />
     </div>
   );

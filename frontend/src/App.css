@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url("http://www.pixelstalk.net/wp-content/uploads/2016/04/Best-space-wallpapers-for-desktop-picture-images.jpg");
+  background-image: url("https://wallpaperaccess.com/full/1216335.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -15,7 +15,7 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
-.available-books-title {
+.available-products-title {
   color: white;
   text-decoration: underline;
 }
@@ -54,13 +54,14 @@ body {
   }
 }
 
-.books-container {
+.products-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  padding-top: 50px;
 }
 
-.book-item {
+.product-item {
   border: 1px solid lightGray;
   padding: 16px;
   background: rgba(255, 255, 255, 0.8);
@@ -89,4 +90,10 @@ body {
   color: black;
   overflow-y: auto;
   margin-top: 16px;
+}
+
+.cart-item-thumbnail {
+  width: 50px; 
+  height: auto; 
+  margin-right: 10px;
 }
