@@ -49,14 +49,14 @@ function App() {
 
   const addToCart = (product) => {
     const existingCartItem = state.cart.find(
-      (cartItem) => cartItem.product.id === product.id
+      (cartItem) => cartItem.id === product.id
     );
 
     setState((prevState) => ({
       ...prevState,
       cart: existingCartItem
         ? prevState.cart.map((cartItem) =>
-            cartItem.product.id === product.id
+            cartItem.id === product.id
               ? {
                   ...cartItem,
                   count: cartItem.count + 1,
@@ -64,7 +64,7 @@ function App() {
                 }
               : cartItem
           )
-        : [...prevState.cart, { product, count: 1 }],
+        : [...prevState.cart, { ...product, count: 1 }, ],
       totalPrice:
         prevState.totalPrice > 0
           ? prevState.totalPrice + parseFloat(product.price)
@@ -75,7 +75,7 @@ function App() {
   const removeFromCart = (id) => {
     setState((prevState) => {
       const existingCartItem = prevState.cart.find(
-        (cartItem) => cartItem.product.id === id
+        (cartItem) => cartItem.id === id
       );
 
       if (!existingCartItem) {
@@ -83,13 +83,13 @@ function App() {
       }
 
       const updatedCart = prevState.cart.map((cartItem) =>
-        cartItem.product.id === id
+        cartItem.id === id
           ? { ...cartItem, count: cartItem.count - 1 }
           : cartItem
       );
 
       const updatedTotalPrice =
-        prevState.totalPrice - parseFloat(existingCartItem.product.price);
+        prevState.totalPrice - parseFloat(existingCartItem.price);
 
       return {
         ...prevState,
@@ -107,8 +107,6 @@ function App() {
       )
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
-
-  console.log(state);
 
   return (
     <CartContext.Provider value={{ state: state, addToCart, removeFromCart }}>
@@ -170,7 +168,9 @@ function App() {
                   padding: "20px",
                 }}
                 role="presentation"
-                onClick={toggleDrawer(false)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
                 onKeyDown={toggleDrawer(false)}
               >
                 <Cart />

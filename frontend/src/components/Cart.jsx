@@ -19,13 +19,12 @@ const Cart = () => {
 
   const drawerWidth = 300;
 
-  console.log(state.cart)
   return (
     <div className="cart-container" style={{ maxWidth: drawerWidth }}>
       <h2>Your Cart</h2>
       {state.cart.map((cartItem) => (
         <CartItem
-          key={cartItem.product.id}
+          key={cartItem.id}
           cartItem={cartItem}
           removeFromCart={removeFromCart}
         />

@@ -4,24 +4,24 @@ import { CartContext } from "../CartContext";
 const CartItem = ({ cartItem }) => {
   const { removeFromCart } = useContext(CartContext);
 
-  const totalPrice = (cartItem.product.price * cartItem.count).toFixed(2);
-
+  const totalPrice = (cartItem.price * cartItem.count).toFixed(2);
+  console.log(cartItem)
   return (
     <div className="cart-item">
       <div className="cart-item-details">
         <img
-          src={cartItem.product.image}
-          alt={`${cartItem.product.make} ${cartItem.product.model}`}
+          src={cartItem.image}
+          alt={`${cartItem.make} ${cartItem.model}`}
           className="cart-item-thumbnail"
         />
         <div>
-          <p>Brand: {cartItem.product.make}</p>
-          <p>Model: {cartItem.product.model}</p>
+          <p>Brand: {cartItem.make}</p>
+          <p>Model: {cartItem.model}</p>
           <p>Quantity: {cartItem.count}</p>
           <p>Price: ${totalPrice}</p>
         </div>
       </div>
-      <button onClick={() => removeFromCart(cartItem.product.id)}>
+      <button onClick={() => removeFromCart(cartItem.id)}>
         Remove from Cart
       </button>
     </div>
