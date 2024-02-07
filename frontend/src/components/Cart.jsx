@@ -17,14 +17,17 @@ const onToken = (token) => {
 const Cart = () => {
   const { state, removeFromCart } = useContext(CartContext);
 
-  const drawerWidth = 300;
+  const myStyle= {
+    maxWidth: "100%",
+    maxHeight: "100%"
+  };
 
   return (
-    <div className="cart-container" style={{ maxWidth: drawerWidth }}>
+    <div className="cart-container" style={myStyle}>
       <h2>Your Cart</h2>
       {state.cart.map((cartItem) => (
         <CartItem
-          key={cartItem.id}
+          key={cartItem._id}
           cartItem={cartItem}
           removeFromCart={removeFromCart}
         />
@@ -38,7 +41,14 @@ const Cart = () => {
       <StripeCheckout
         stripeKey="pk_test_51OepDPIEo0qy9qOoGhEwRkclGuAhHwQjceS6P5ZRTYrySIkq06nXNnd52rzNguGTBAzik0StuRDLsrkDUJaLTAJ200vSUxp0bq"
         token={onToken}
-        billingAddress
+        name = "Nick's Guitars"
+        description = "Best Twigs in the Universe"
+        image="https://tse1.mm.bing.net/th?id=OIP.PjQt1Rpp4N23jUZ7FDfTWQHaEK&pid=Api&P=0&h=220"
+        panelLabel="Submit Payment"
+        allowRememberMe
+        alipay
+        bitcoin
+        billingAddress = {true}
         shippingAddress
         amount={state.totalPrice * 100}
       />

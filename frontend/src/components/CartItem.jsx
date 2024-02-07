@@ -21,7 +21,7 @@ const CartItem = ({ cartItem }) => {
           <p>Price: ${totalPrice}</p>
         </div>
       </div>
-      <button onClick={() => removeFromCart(cartItem.id)}>
+      <button onClick={() => removeFromCart(cartItem._id)}>
         Remove from Cart
       </button>
     </div>

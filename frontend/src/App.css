@@ -82,7 +82,7 @@ body {
 .cart-container {
   max-height: 80vh;
   width: 100vw;
-  height: 35vh;
+  height: auto;
   border: 1px solid lightGray;
   padding: 16px;
   box-sizing: border-box;

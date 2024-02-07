@@ -14,21 +14,31 @@ import { CartContext } from "./CartContext";
 import Cart from "./components/Cart";
 
 function App() {
+  const [state, setState] = useState({
+    products: [],
+    cart: [],
+    totalPrice: 0,
+  });
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (make) => {
+    fetch("http://localhost:3003/api/get-products")
+      .then((response) => response.json())
+      .then((data) => {
+        if(make === "All"){
+          setState((prevState) => ({ ...prevState, products: data }));
+        } else {
+        const filterProducts = data.filter((product) => product.make === make);
+        setState((prevState) => ({ ...prevState, products: filterProducts }));
+      }})
+      .catch((error) => console.error("Error fetching products:", error));
     setAnchorEl(null);
   };
-
-  const [state, setState] = useState({
-    products: [],
-    cart: [],
-    totalPrice: 0,
-  });
 
   const totalItemsInCart = state.cart.reduce(
     (total, cartItem) => total + cartItem.count,
@@ -49,22 +59,22 @@ function App() {
 
   const addToCart = (product) => {
     const existingCartItem = state.cart.find(
-      (cartItem) => cartItem.id === product.id
+      (cartItem) => cartItem._id === product._id
     );
 
     setState((prevState) => ({
       ...prevState,
       cart: existingCartItem
         ? prevState.cart.map((cartItem) =>
-            cartItem.id === product.id
+            cartItem._id === product._id
               ? {
                   ...cartItem,
                   count: cartItem.count + 1,
                   price: parseFloat(cartItem.price),
                 }
-              : cartItem
+              : { ...cartItem }
           )
-        : [...prevState.cart, { ...product, count: 1 }, ],
+        : [...prevState.cart, { ...product, count: 1 }],
       totalPrice:
         prevState.totalPrice > 0
           ? prevState.totalPrice + parseFloat(product.price)
@@ -72,10 +82,10 @@ function App() {
     }));
   };
 
-  const removeFromCart = (id) => {
+  const removeFromCart = (_id) => {
     setState((prevState) => {
       const existingCartItem = prevState.cart.find(
-        (cartItem) => cartItem.id === id
+        (cartItem) => cartItem._id === _id
       );
 
       if (!existingCartItem) {
@@ -83,7 +93,7 @@ function App() {
       }
 
       const updatedCart = prevState.cart.map((cartItem) =>
-        cartItem.id === id
+        cartItem._id === _id
           ? { ...cartItem, count: cartItem.count - 1 }
           : cartItem
       );
@@ -129,12 +139,24 @@ function App() {
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>Gibson</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Tom Anderson</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Jackson</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Ormsby</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Suhr</MenuItem>
+              ><MenuItem onClick={() => handleMenuClose("All")}>
+              All
+            </MenuItem>
+                <MenuItem onClick={() => handleMenuClose("Gibson")}>
+                  Gibson
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuClose("Tom Anderson")}>
+                  Tom Anderson
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuClose("Jackson")}>
+                  Jackson
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuClose("Ormsby")}>
+                  Ormsby
+                </MenuItem>
+                <MenuItem onClick={() => handleMenuClose("Suhr")}>
+                  Suhr
+                </MenuItem>
               </Menu>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -164,7 +186,7 @@ function App() {
             >
               <div
                 style={{
-                  width: 300,
+                  width: 700,
                   padding: "20px",
                 }}
                 role="presentation"
@@ -180,7 +202,7 @@ function App() {
         </AppBar>
         <div className="products-container">
           {state.products.map((product) => (
-            <div key={product.id} className="product-item">
+            <div key={product._id} className="product-item">
               <h2>
                 <i>{product.make}</i>
               </h2>
@@ -189,8 +211,8 @@ function App() {
                 src={product.image}
                 alt={`${product.make} ${product.model}`}
                 style={{
-                  width: "300px",
-                  height: "300px",
+                  width: "200px",
+                  height: "200px",
                   objectFit: "contain",
                 }}
               />
