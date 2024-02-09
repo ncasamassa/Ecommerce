@@ -3,18 +3,17 @@ const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 const objectId = mongodb.ObjectId;
 
 const server = express();
 
-
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(cors());
 
-const DB_URL =
-"mongodb+srv://nickabodcrane:dA1mYPtsZMJiDODt@cluster0.pu1nad0.mongodb.net/?retryWrites=true&w=majority";
+const DB_URL = process.env.DB_URL;
 const DB_NAME = "Ecommerce";
 
 MongoClient.connect(DB_URL).then((client) => {

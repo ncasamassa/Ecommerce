@@ -27,7 +27,7 @@ function App() {
   };
 
   const handleMenuClose = (make) => {
-    fetch("http://localhost:3003/api/get-products")
+    fetch(process.env.REACT_APP_BACKEND_URL + "/api/get-products")
       .then((response) => response.json())
       .then((data) => {
         if(make === "All"){
@@ -108,9 +108,8 @@ function App() {
       };
     });
   };
-
   useEffect(() => {
-    fetch("http://localhost:3003/api/get-products")
+    fetch(process.env.REACT_APP_BACKEND_URL + "/api/get-products")
       .then((response) => response.json())
       .then((data) =>
         setState((prevState) => ({ ...prevState, products: data }))
