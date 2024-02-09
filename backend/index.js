@@ -22,6 +22,10 @@ MongoClient.connect(DB_URL).then((client) => {
   const db = client.db(DB_NAME);
   const productsCollection = db.collection("products");
 
+  server.get("/", (req, res) => {
+    res.send("welcome")
+  })
+
   server.get("/api/get-products", (req, res) => {
     productsCollection
       .find()
