@@ -40,3 +40,5 @@ MongoClient.connect(DB_URL).then((client) => {
     console.log("Server is listening on port:", PORT);
   });
 });
+
+module.exports = server
