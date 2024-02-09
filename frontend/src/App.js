@@ -121,7 +121,7 @@ function App() {
   return (
     <CartContext.Provider value={{ state: state, addToCart, removeFromCart }}>
       <div className="App">
-        <AppBar position="fixed">
+        <AppBar position="fixed" sx={{ backgroundColor: '#424242' }}>
           <Toolbar style={{ justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <IconButton

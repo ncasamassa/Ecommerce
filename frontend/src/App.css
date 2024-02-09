@@ -1,10 +1,10 @@
 body {
   margin: 0;
   padding: 0;
-  background-image: url("https://wallpaperaccess.com/full/1216335.jpg");
+  background-image: url("http://www.pixelstalk.net/wp-content/uploads/2016/10/Grey-Texture-Background-and-Wallpaper.jpg");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat; */
 }
 
 .App {
