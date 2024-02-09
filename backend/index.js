@@ -23,7 +23,7 @@ MongoClient.connect(DB_URL).then((client) => {
   const productsCollection = db.collection("products");
 
   server.get("/", (req, res) => {
-    res.send("welcome")
+    res.send("welcome");
   })
 
   server.get("/api/get-products", (req, res) => {
